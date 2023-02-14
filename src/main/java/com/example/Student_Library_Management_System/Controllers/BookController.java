@@ -1,7 +1,7 @@
 package com.example.Student_Library_Management_System.Controllers;
 
-import com.example.Student_Library_Management_System.Models.Student;
-import com.example.Student_Library_Management_System.Services.StudentService;
+import com.example.Student_Library_Management_System.Models.Book;
+import com.example.Student_Library_Management_System.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("student") //its used to map the http request to a perticular controller
-public class StudentController {
+@RequestMapping("/book")
+public class BookController {
+
     @Autowired
-    StudentService studentService;
+    BookService bookService;
 
     @PostMapping("/add")
-    public String addStudent(@RequestBody Student studet){
-        return studentService.addStudent(studet);
-
+    public String add(@RequestBody Book book){ //all attribute provide , only author id provided, card not provided
+        return bookService.add(book);
     }
+
 
 }

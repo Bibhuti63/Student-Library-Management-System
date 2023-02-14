@@ -6,33 +6,26 @@ import jakarta.persistence.*;
 @Table(name = "Student_info")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto generated id as primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto generated id & use as primary key
     private int id;
-
     private String name;
-
     private int age;
-
     private String country;
-
     private String mobileNo;
-
     @Column(unique = true) //unique key
     private String email;
 
     //Bidirectional maping
-
-        //name of variable of type Student i.e written in child class(Card) as foreign key
-        //cascade make sure that if parent is changed child will also changed to avoid redundancy
+        //mappedBy = (name of variable which is of type parent(Student) i.e used in child class(Card) as foreign key)
+        //cascade -> make sure that if parent is changed child will also change to avoid redundancy
     @OneToOne(mappedBy = "studentVariableName",cascade = CascadeType.ALL)
     private Card card;
-    //its necassary to have getters and setter of card variable
+    //its required to have getters and setter of card variable
 
     /*
       Steps to find that variable
-        1. Go the child class (In this case)
-        2. Out of all the attributes select the foreign key attribute that is helping you connect
-        with parent class
+        1. Go the child class (In this case: Card)
+        2. Out of all the attributes select the foreign key attribute that is helping you connect with parent class
         (Ref :  @OneToOne
                 @JoinColumn
                 private Student studentVariableName;
