@@ -1,5 +1,6 @@
 package com.example.Student_Library_Management_System.Services;
 
+import com.example.Student_Library_Management_System.DTOs.StudentMobileUpdateRequestDto;
 import com.example.Student_Library_Management_System.Enums.CardStatus;
 import com.example.Student_Library_Management_System.Models.Card;
 import com.example.Student_Library_Management_System.Models.Student;
@@ -57,7 +58,8 @@ public class StudentService {
 //        return list;
 //    }
 
-    public String updateMobNo(Student student) {
+    public String updateMobNo(StudentMobileUpdateRequestDto student) {
+
         //fetch the original data
         Student originalStudent=studentRepository.findById(student.getId()).get();
         //only changed the required parameter of originalStudent i.e mobileNo

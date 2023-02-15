@@ -16,6 +16,8 @@ public class Book {
     @Enumerated(value = EnumType.STRING)
     private Genre genre;
 
+    private boolean isIssued;
+
     //Mapping
 
         //1
@@ -94,5 +96,13 @@ public class Book {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public boolean isIssued() {
+        return isIssued;
+    }
+
+    public void setIssued(boolean issued) {
+        isIssued = issued;
     }
 }
