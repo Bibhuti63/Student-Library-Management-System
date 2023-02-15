@@ -7,6 +7,9 @@ import com.example.Student_Library_Management_System.Repositories.StudentReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class StudentService {
     @Autowired
@@ -29,4 +32,27 @@ public class StudentService {
 
         return "Student added and Card for the Student Created";
     }
+
+    public String getStudentNameByEmail(String  email) {
+        Student student=studentRepository.findByEmail(email);
+        return student.getName();
+    }
+
+    public List<String> getStudentFromCountry(String country) {
+        List<Student> students=studentRepository.findByCountry(country);
+        List<String> list=new ArrayList<>();
+        for(Student student : students){
+            list.add(student.getName());
+        }
+        return list;
+    }
+
+//    public List<String> getStudentBetweenAge(int age) {
+//        List<Student> students=studentRepository.findByAgeBetween(age);
+//        List<String> list=new ArrayList<>();
+//        for(Student student: students){
+//            list.add(student.getName());
+//        }
+//        return list;
+//    }
 }
