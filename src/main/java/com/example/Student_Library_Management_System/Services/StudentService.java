@@ -47,6 +47,7 @@ public class StudentService {
         return list;
     }
 
+
 //    public List<String> getStudentBetweenAge(int age) {
 //        List<Student> students=studentRepository.findByAgeBetween(age);
 //        List<String> list=new ArrayList<>();
@@ -55,4 +56,14 @@ public class StudentService {
 //        }
 //        return list;
 //    }
+
+    public String updateMobNo(Student student) {
+        //fetch the original data
+        Student originalStudent=studentRepository.findById(student.getId()).get();
+        //only changed the required parameter of originalStudent i.e mobileNo
+        originalStudent.setMobileNo(student.getMobileNo());
+        //save the original student in db
+        studentRepository.save(originalStudent);
+        return "Mobile number updated successfully .";
+    }
 }

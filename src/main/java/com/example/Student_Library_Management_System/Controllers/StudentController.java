@@ -34,4 +34,9 @@ public class StudentController {
 //        return studentService.getStudentBetweenAge(age);
 //    }
 
+    @PutMapping("/updateMobile")
+    public String updateMobNo(@RequestBody Student student){
+        return studentService.updateMobNo(student);
+    }
+
 }
