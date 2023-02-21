@@ -16,7 +16,7 @@ public class TransactionController {
     TransactionService transactionService;
 
     @PostMapping("/issue")
-    public String issueBook(@RequestBody IssueBookRequestDto issueBookRequestDto){
+    public String issueBook(@RequestBody IssueBookRequestDto issueBookRequestDto) throws Exception {
         return transactionService.issueBook(issueBookRequestDto);
     }
 }

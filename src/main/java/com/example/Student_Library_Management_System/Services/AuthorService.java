@@ -2,14 +2,20 @@ package com.example.Student_Library_Management_System.Services;
 
 import com.example.Student_Library_Management_System.DTOs.AuthorEntryDto;
 import com.example.Student_Library_Management_System.Models.Author;
+import com.example.Student_Library_Management_System.Models.Book;
 import com.example.Student_Library_Management_System.Repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
+
+
 
     public String add(AuthorEntryDto authorEntryDto) {
 
@@ -27,4 +33,26 @@ public class AuthorService {
 
         return "Author added to database";
     }
+
+    public List<String> findAllBook(int id) {
+        Author author=authorRepository.findById(id).get();
+
+        List<Book>books=author.getBooksWritten();
+        List<String>bookNames=new ArrayList<>();
+
+        for(Book book: books){
+            String name=book.getName();
+            bookNames.add(name);
+        }
+        return bookNames;
+
+    }
+//    public List<Book> findAllBook(int id) {
+//        Author author=authorRepository.findById(id).get();
+//
+//        List<Book>books=author.getBooksWritten();
+//
+//        return books;
+//    }
+
 }

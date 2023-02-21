@@ -40,4 +40,9 @@ public class StudentController {
         return studentService.updateMobNo(student);
     }
 
+    @GetMapping("/book_issued")
+    public List<String> findBookIssuedToStudent(@RequestParam("id") int id){
+        return studentService.findBookIssuedToStudent(id);
+    }
+
 }

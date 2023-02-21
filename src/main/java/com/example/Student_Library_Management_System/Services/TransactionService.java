@@ -1,6 +1,7 @@
 package com.example.Student_Library_Management_System.Services;
 
 import com.example.Student_Library_Management_System.DTOs.IssueBookRequestDto;
+import com.example.Student_Library_Management_System.Enums.CardStatus;
 import com.example.Student_Library_Management_System.Enums.TransactionStatus;
 import com.example.Student_Library_Management_System.Models.Book;
 import com.example.Student_Library_Management_System.Models.Card;
@@ -10,6 +11,9 @@ import com.example.Student_Library_Management_System.Repositories.CardRepository
 import com.example.Student_Library_Management_System.Repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TransactionService {
@@ -22,42 +26,52 @@ public class TransactionService {
     CardRepository cardRepository;
 
 
-    public String issueBook(IssueBookRequestDto issueBookRequestDto) {
-        //write the logic to issue book here
-
+    public String issueBook(IssueBookRequestDto issueBookRequestDto) throws Exception {
         //fetching the respective repository to get the object
         Book book=bookRepository.findById(issueBookRequestDto.getBookId()).get();
         Card card=cardRepository.findById(issueBookRequestDto.getCardId()).get();
 
-        //marking the given book as issued
-        book.setIssued(true);
+//        book.setIssued(true);
 
-        //creating a new transaction
+        //create a new transaction
         Transaction transaction=new Transaction();
-        //id(p.k), transactionDate,transactionId(uuid) is auto set
-        //set other parameters
-        transaction.setIssuedOperation(true);
-        transaction.setFine(0);
-        transaction.setTransactionStatus(TransactionStatus.SUCCESS);
-        //set the foreign keys
         transaction.setBook(book);
         transaction.setCard(card);
 
-        //adding the transaction to book
-        book.getTransactionList().add(transaction); //it will update in the reference so no need to get the list , add, then update
-        //adding the transaction to card
-        card.getTransactionList().add(transaction);
+        transaction.setFine(0);
+//        transaction.setTransactionId(UUID.randomUUID().toString());
+        transaction.setIssuedOperation(true);
+        transaction.setTransactionStatus(TransactionStatus.PENDING);
 
-        //adding the book to list_of_book_issued using the card
+        if(book==null){
+            transaction.setTransactionStatus(TransactionStatus.FAILED);
+            transactionRepository.save(transaction);
+            throw new Exception("Book is not available in library");
+
+        }
+
+        if(card==null || (card.getCardStatus()!= CardStatus.ACTIVATED)){
+            transaction.setTransactionStatus(TransactionStatus.FAILED);
+            transactionRepository.save(transaction);
+            throw new Exception("Card is not valid");
+        }
+
+        //sucess case
+        transaction.setTransactionStatus(TransactionStatus.SUCCESS);
+        book.setIssued(true);
+
+        //adding to list of book issued to card
         card.getBooksIssued().add(book);
 
-        //save the card, book, transaction entity
+        //adding transaction to list of transaction of card
+        card.getTransactionList().add(transaction);
 
-        //card is parent of transaction //also it is parent of book
-        //saving the card will save book & transaction by cascading effect
+        //adding transaction to list of transaction of book
+        book.getTransactionList().add(transaction);
 
         cardRepository.save(card);
 
-        return "Book : "+" "+book.getName()+" issued to Card No :"+card.getId()+" Tnx id "+transaction.getTransactionId();
+        return "Book : "+book.getName()+" issued to card id : "+card.getId()+" tnx id : "+transaction.getTransactionId();
+
     }
 }

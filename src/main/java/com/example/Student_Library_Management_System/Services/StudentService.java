@@ -2,6 +2,7 @@ package com.example.Student_Library_Management_System.Services;
 
 import com.example.Student_Library_Management_System.DTOs.StudentMobileUpdateRequestDto;
 import com.example.Student_Library_Management_System.Enums.CardStatus;
+import com.example.Student_Library_Management_System.Models.Book;
 import com.example.Student_Library_Management_System.Models.Card;
 import com.example.Student_Library_Management_System.Models.Student;
 import com.example.Student_Library_Management_System.Repositories.StudentRepository;
@@ -67,5 +68,23 @@ public class StudentService {
         //save the original student in db
         studentRepository.save(originalStudent);
         return "Mobile number updated successfully .";
+    }
+
+    public List<String> findBookIssuedToStudent(int id) {
+        //fetch the db to get the student entity
+        Student student=studentRepository.findById(id).get();
+        //get the card issued to the student
+        Card card=student.getCard();
+        //from the card get the list of book issued to that card
+        List<Book>list=card.getBooksIssued();
+
+        List<String>books=new ArrayList<>();
+
+        for(Book book : list){
+            String name=book.getName();
+            books.add(name);
+        }
+
+        return books;
     }
 }
