@@ -1,6 +1,7 @@
 package com.example.Student_Library_Management_System.Controllers;
 
 import com.example.Student_Library_Management_System.DTOs.AuthorEntryDto;
+import com.example.Student_Library_Management_System.DTOs.AuthorResponseDto;
 import com.example.Student_Library_Management_System.Models.Author;
 import com.example.Student_Library_Management_System.Models.Book;
 import com.example.Student_Library_Management_System.Services.AuthorService;
@@ -32,7 +33,7 @@ public class AuthorController {
 //        return authorService.findAllBook(id);
 //    }
     @GetMapping("get")
-    public Author getAuthor(@RequestParam("id") int id){
+    public AuthorResponseDto getAuthor(@RequestParam("id") int id){
         return authorService.getAuthor(id);
     }
 
