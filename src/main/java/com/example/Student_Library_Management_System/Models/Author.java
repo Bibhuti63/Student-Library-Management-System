@@ -1,5 +1,6 @@
 package com.example.Student_Library_Management_System.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Author {
     //Bidirectional mapping
 
         //Author to Book mapping
+
+//    @JsonIgnore //used to avoid infinite recursion while returning object
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
     private List<Book> booksWritten; //There can be multiple books correspondence to one author
 

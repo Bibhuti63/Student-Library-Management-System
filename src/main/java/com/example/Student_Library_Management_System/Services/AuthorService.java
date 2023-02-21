@@ -47,6 +47,10 @@ public class AuthorService {
         return bookNames;
 
     }
+
+    public Author getAuthor(int id) {
+        return authorRepository.findById(id).get();
+    }
 //    public List<Book> findAllBook(int id) {
 //        Author author=authorRepository.findById(id).get();
 //

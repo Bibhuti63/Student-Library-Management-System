@@ -31,5 +31,9 @@ public class AuthorController {
 //    public List<Book> findAllBook(@RequestParam("author_id") int id){
 //        return authorService.findAllBook(id);
 //    }
+    @GetMapping("get")
+    public Author getAuthor(@RequestParam("id") int id){
+        return authorService.getAuthor(id);
+    }
 
 }
